@@ -24,6 +24,8 @@ router.post('/upload', upload.single('video'), (req, res) => {
   let str = 'ffmpeg -i public/videos/' + req.file.originalname + ' -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls public/videos/' + req.file.originalname.split('.')[0] + '.m3u8';
   exec(str, (error, stdout, stderr) => {
     if (error) console.log(error);
+    console.log(stdout);
+    console.log(stderr);
     res.json({'status': true});
   });
 });
