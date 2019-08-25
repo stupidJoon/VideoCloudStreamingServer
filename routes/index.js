@@ -21,8 +21,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/upload', upload.single('video'), (req, res) => {
-  console.log(req.header);
-  console.log(req.body);
+  console.log(JSON.stringify(req.header, null, 4));
+  console.log(JSON.stringify(req.body, null, 4));
   let str = 'ffmpeg -i public/videos/' + req.file.originalname + ' -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls public/videos/' + req.file.originalname.split('.')[0] + '.m3u8';
   exec(str, (error, stdout, stderr) => {
     if (error) console.log(error);
