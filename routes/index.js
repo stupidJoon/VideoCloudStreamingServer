@@ -33,6 +33,7 @@ router.post('/upload', upload.single('video'), (req, res) => {
 });
 
 router.get('/video', (req, res) => {
+  console.log(req.body);
   fs.readdir(path.join(__dirname, '../public/videos/'), (err, files) => {
     if (err) throw err;
     let fileNameArr = [];
