@@ -23,6 +23,7 @@ router.get('/', function(req, res, next) {
 router.post('/upload', upload.single('video'), (req, res) => {
   console.log(JSON.stringify(req.headers, null, 4));
   console.log(JSON.stringify(req.body, null, 4));
+  console.log("req.file:", JSON.stringify(req.file));
   let str = 'ffmpeg -i public/videos/' + req.file.originalname + ' -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls public/videos/' + req.file.originalname.split('.')[0] + '.m3u8';
   exec(str, (error, stdout, stderr) => {
     if (error) console.log(error);
@@ -33,7 +34,6 @@ router.post('/upload', upload.single('video'), (req, res) => {
 });
 
 router.get('/video', (req, res) => {
-  console.log(req.body);
   fs.readdir(path.join(__dirname, '../public/videos/'), (err, files) => {
     if (err) throw err;
     let fileNameArr = [];
@@ -44,14 +44,6 @@ router.get('/video', (req, res) => {
     });
     res.json({'status': true, 'videos': fileNameArr});
   });
-});
-
-router.use(function (err, req, res, next) {
-  if (err) {
-    console.log('Error', err);
-  } else {
-    console.log('404')
-  }
 });
 
 module.exports = router;
